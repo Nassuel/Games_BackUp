@@ -5,7 +5,6 @@ from datetime import datetime
 
 
 class BackUpper:
-
     _master_rank = ''
     _hunter_rank = ''
     _dict_from_file = {}
