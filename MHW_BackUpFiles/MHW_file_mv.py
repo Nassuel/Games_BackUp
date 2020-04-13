@@ -70,6 +70,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     input_to_main = dict(file_location=file_location,hr=args.hr,mr=args.mr)
 
-    print(input_to_main)
+    # print(input_to_main)
 
-    # main(input_to_main)
+    main(input_to_main)
