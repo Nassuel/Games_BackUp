@@ -68,9 +68,8 @@ if __name__ == '__main__':
     parser.add_argument('-hr', type=int, required=True)
     parser.add_argument('-mr', type=int, required=True)
     args = parser.parse_args()
-    input_to_main = {}
-    input_to_main['file_location'] = file_location
-    input_to_main['hr'] = args.hr
-    input_to_main['mr'] = args.mr
+    input_to_main = dict(file_location=file_location,hr=args.hr,mr=args.mr)
 
-    main(input_to_main)
+    print(input_to_main)
+
+    # main(input_to_main)
