@@ -1,8 +1,11 @@
+# custom files
+variables.py
+test_variables.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-variables.py
 
 # C extensions
 *.so

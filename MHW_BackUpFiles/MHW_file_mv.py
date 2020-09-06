@@ -1,8 +1,9 @@
 import os
 import shutil
+import zipfile as zipf
 import argparse
 from datetime import datetime
-from variables import file_location
+from test_variables import file_location
 
 class BackUpper:
     _master_rank = ''
@@ -18,11 +19,9 @@ class BackUpper:
         try:
             shutil.copytree(f_origin_path, f_dest_path)
             print("File copied successfully.")
-
         # If there is any permission issue
         except PermissionError:
             print("Permission denied.")
-
         # For other errors
         except:
             print("Error occurred while copying file.")
@@ -36,12 +35,31 @@ class BackUpper:
         files_in_dir = os.listdir(cleanup_path)
 
         for file in files_in_dir:
-            files_to_move = cleanup_path + file
+            file_to_move_path = cleanup_path + file
             if file_to_not_move != file:
                 # print(file_to_not_move)
-                shutil.move(files_to_move, cleanup_dst_path)
+                shutil.move(file_to_move_path, cleanup_dst_path)
 
         print('Files have been cleaned up successfully.')
+        return
+
+    def zip_file_copy(self, f_origin_path, f_dest_path):
+        try:
+            import zlib
+            comp = zipf.ZIP_DEFLATED
+        except:
+            comp = zipf.ZIP_STORED
+
+        zf = zipf.ZipFile(f_dest_path+".zip", mode='w')
+        try:
+            for file in os.listdir(f_origin_path):
+                file_to_move_path = f_origin_path + file
+                zf.write(file_to_move_path, compress_type=comp)
+        except:
+            print('Error when writing folder to zip')
+        finally:
+            zf.close()
+
         return
 
     def run(self):
@@ -49,7 +67,8 @@ class BackUpper:
         full_dest_path = self._dict_from_file['in_dest_path'] + '{0}({1},{2})'.format(
             today_dt.strftime('%d%m%Y_%H,%M,%S'), self._master_rank, self._hunter_rank)
 
-        self.copy_save_data(self._dict_from_file['in_origin'], full_dest_path)
+        # self.copy_save_data(self._dict_from_file['in_origin'], full_dest_path)
+        self.zip_file_copy(self._dict_from_file['in_origin'], full_dest_path)
         self.clean_up_old_files(full_dest_path)
 
 
